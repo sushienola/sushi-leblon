@@ -97,11 +97,16 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
 /* Proposta: impressão */
 .proposta{display:none}
 @media print{
-  @page{size:A4;margin:16mm 14mm 14mm}
+  @page{size:A4;margin:0}
   html,body{background:#fff!important}
   body>*{display:none!important}
   body>.proposta{display:block!important}
-  .proposta{font-family:var(--sans);color:#1A1A1A;font-size:10.2pt;line-height:1.5}
+  .proposta{font-family:var(--sans);color:#1A1A1A;font-size:10.2pt;line-height:1.5;padding:0 15mm}
+  .proposta .folha{width:100%;border-collapse:collapse}
+  .proposta .folha td{padding:0;vertical-align:top}
+  .proposta .esp-topo{height:15mm}
+  .proposta .esp-pe{height:13mm}
+  .proposta h4{break-after:avoid}
   .proposta .capa{border-bottom:2px solid #8C7853;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
   .proposta .marca{font-family:var(--serif);font-size:22pt;letter-spacing:.02em;color:#1A1A1A}
   .proposta .marca small{display:block;font-family:var(--sans);font-size:7.6pt;letter-spacing:.22em;text-transform:uppercase;color:#8C7853;margin-top:4px}
@@ -112,10 +117,13 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
   .proposta .dados dd{font-weight:500;font-size:9.4pt;text-align:right}
   .proposta .abertura{font-family:var(--serif);font-size:13pt;line-height:1.45;margin:4px 0 20px;color:#1A1A1A}
   .proposta h4{font-family:var(--sans);font-size:7.8pt;letter-spacing:.2em;text-transform:uppercase;color:#8C7853;border-bottom:1px solid #8C7853;padding-bottom:5px;margin:0 0 10px}
-  .proposta .menu{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;margin-bottom:18px}
-  .proposta .menu section{break-inside:avoid;margin-bottom:14px}
+  .proposta .menu{display:flex;gap:26px;margin-bottom:18px;align-items:flex-start}
+  .proposta .menu .col{flex:1;min-width:0}
+  .proposta .menu section{margin-bottom:14px}
+  .proposta .menu li{break-inside:avoid}
+  .proposta .bloco-valor{break-inside:avoid}
   .proposta .menu ul{list-style:none;margin:0}
-  .proposta .menu li{padding:2.5px 0;font-size:9.2pt;border-bottom:1px dotted #EEE9E1}
+  .proposta .menu li{padding:1.5px 0;font-size:9pt;line-height:1.45;border-bottom:1px dotted #EEE9E1}
   .proposta .obs{font-size:9.2pt;margin-bottom:18px;white-space:pre-line;break-inside:avoid}
   .proposta .valor{background:#FAF8F4;border-left:3px solid #8C7853;padding:14px 18px;margin:6px 0 18px;break-inside:avoid}
   .proposta .valor .n{font-family:var(--serif);font-size:26pt;line-height:1.1;color:#1A1A1A}
@@ -671,7 +679,10 @@ $("#p-gerar").addEventListener("click", () => {
   const obs = $("#p-obs").value.trim();
   const sinal = total / 2;
 
-  $("#proposta").innerHTML = `
+  $("#proposta").innerHTML = `<table class="folha">
+    <thead><tr><td><div class="esp-topo"></div></td></tr></thead>
+    <tfoot><tr><td><div class="esp-pe"></div></td></tr></tfoot>
+    <tbody><tr><td>
     <div class="capa">
       <div class="marca">Sushi Leblon<small>Eventos</small></div>
       <div class="quando">Proposta emitida em ${fmt(hoje)}<br>Válida até ${fmt(val)}</div>
@@ -687,16 +698,18 @@ $("#p-gerar").addEventListener("click", () => {
     <ul class="regras">
       <li>Buffet Sushi Leblon servido no local para ${r.n} pessoas, no formato rodízio: a equipe permanece durante todo o evento repondo os pratos enquanto houver consumo.</li>
       <li>Equipe uniformizada: ${esc(textoEquipe(r.funcoes))}.</li>
-      <li>Hashi, guardanapo personalizado, shoyu, gengibre e wasabi inclusos.</li>
     </ul>
     <h4>Menu</h4>
     <div class="menu">
-      ${grupo("Sushi bar", "frios")}
-      ${grupo("Quentes", "quentes")}
-      ${grupo("Sobremesas", "sobremesas")}
-      ${r.beb ? grupo("Bebidas", "bebidas") : ""}
+      <div class="col">${grupo("Sushi bar", "frios")}</div>
+      <div class="col">
+        ${grupo("Quentes", "quentes")}
+        ${grupo("Sobremesas", "sobremesas")}
+        ${r.beb ? grupo("Bebidas", "bebidas") : ""}
+      </div>
     </div>
     ${obs ? `<h4>Observações</h4><p class="obs">${esc(obs)}</p>` : ""}
+    <div class="bloco-valor">
     <h4>Investimento</h4>
     <div class="valor">
       <div class="n">${brl0(total)}</div>
@@ -705,6 +718,7 @@ $("#p-gerar").addEventListener("click", () => {
         50% de sinal (${brl0(sinal)}) na confirmação desta proposta<br>
         50% (${brl0(total - sinal)}) até cinco dias antes do evento
       </div>
+    </div>
     </div>
     <div class="cols">
       <div>
@@ -718,9 +732,15 @@ $("#p-gerar").addEventListener("click", () => {
     </div>
     <div class="pe">
       <div>${esc($("#p-resp").value.trim())}</div>
-      <div>(21) 2512-7830 &nbsp;·&nbsp; eventos@sushileblon.com.br</div>
+      <div>(21) 2512-7830 &nbsp;·&nbsp; administrativo@sushileblon.com</div>
     </div>
-    <p class="aviso-previa">Valores sujeitos a confirmação pela equipe Sushi Leblon.</p>`;
+    <p class="aviso-previa">Valores sujeitos a confirmação pela equipe Sushi Leblon.</p>
+    </td></tr></tbody></table>`;
+  // nome do arquivo PDF sugerido pelo navegador
+  const tituloAntes = document.title;
+  const cli = $("#p-cliente").value.trim();
+  document.title = "Proposta Sushi Leblon" + (cli ? " - " + cli : "");
+  window.addEventListener("afterprint", () => { document.title = tituloAntes; }, { once: true });
   setTimeout(() => window.print(), 60);
 });
 </script>
