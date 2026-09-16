@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Sushi Leblon · Painel de preços</title>
+<title>Sushi Leblon · Painel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -69,6 +69,67 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
 .simul input,.simul select{padding:.45em .6em;border-radius:4px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:var(--branco);font:inherit;font-size:.86rem}
 .simul select option{color:#1A1A1A}
 @media (max-width:620px){ .previa{flex-direction:column;align-items:stretch;gap:12px} }
+
+/* Abas */
+.abas{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--linha)}
+.aba{border:0;background:transparent;font:inherit;font-weight:500;color:var(--suave);padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.aba[aria-selected="true"]{color:var(--nanquim);border-bottom-color:var(--ouro)}
+.aba:hover{color:var(--nanquim)}
+
+/* Proposta: formulário */
+.campo select,.campo textarea{width:100%;padding:.6em .7em;border:1px solid var(--linha);border-radius:4px;font:inherit;background:var(--branco)}
+.campo textarea{resize:vertical;min-height:70px}
+.campo.largo{grid-column:1/-1}
+.grupo-menu{margin-top:14px}
+.grupo-menu h3{font-size:.8rem;font-weight:600;color:var(--ouro-texto);margin-bottom:6px;display:flex;justify-content:space-between;gap:10px}
+.grupo-menu h3 button{border:0;background:none;font:inherit;font-size:.76rem;font-weight:400;color:var(--suave);text-decoration:underline;cursor:pointer}
+.itens{columns:2;column-gap:28px}
+.chk{display:flex;gap:8px;align-items:flex-start;padding:3px 0;break-inside:avoid;cursor:pointer;font-size:.92rem}
+.chk input{margin-top:.28em;accent-color:var(--ouro-texto)}
+.chk.fora span{color:#9A948B;text-decoration:line-through}
+.interr{display:flex;gap:10px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--linha);font-weight:500;cursor:pointer}
+.interr input{accent-color:var(--ouro-texto);width:17px;height:17px}
+.total-prop{font-family:var(--serif);font-size:2rem;color:var(--nanquim);line-height:1.1}
+.alerta{color:var(--vermelho);font-size:.86rem;margin-top:6px;min-height:1.2em}
+.acoes{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
+@media (max-width:620px){ .itens{columns:1} }
+
+/* Proposta: impressão */
+.proposta{display:none}
+@media print{
+  @page{size:A4;margin:16mm 14mm 14mm}
+  html,body{background:#fff!important}
+  body>*{display:none!important}
+  body>.proposta{display:block!important}
+  .proposta{font-family:var(--sans);color:#1A1A1A;font-size:10.2pt;line-height:1.5}
+  .proposta .capa{border-bottom:2px solid #8C7853;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+  .proposta .marca{font-family:var(--serif);font-size:22pt;letter-spacing:.02em;color:#1A1A1A}
+  .proposta .marca small{display:block;font-family:var(--sans);font-size:7.6pt;letter-spacing:.22em;text-transform:uppercase;color:#8C7853;margin-top:4px}
+  .proposta .quando{text-align:right;font-size:8.6pt;color:#6B6B6B;line-height:1.7}
+  .proposta .dados{display:grid;grid-template-columns:1fr 1fr;gap:4px 26px;margin-bottom:18px}
+  .proposta .dados div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #E8E4DD;padding:5px 0}
+  .proposta .dados dt{color:#6B6B6B;font-size:8.8pt;white-space:nowrap}
+  .proposta .dados dd{font-weight:500;font-size:9.4pt;text-align:right}
+  .proposta .abertura{font-family:var(--serif);font-size:13pt;line-height:1.45;margin:4px 0 20px;color:#1A1A1A}
+  .proposta h4{font-family:var(--sans);font-size:7.8pt;letter-spacing:.2em;text-transform:uppercase;color:#8C7853;border-bottom:1px solid #8C7853;padding-bottom:5px;margin:0 0 10px}
+  .proposta .menu{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;margin-bottom:18px}
+  .proposta .menu section{break-inside:avoid;margin-bottom:14px}
+  .proposta .menu ul{list-style:none;margin:0}
+  .proposta .menu li{padding:2.5px 0;font-size:9.2pt;border-bottom:1px dotted #EEE9E1}
+  .proposta .obs{font-size:9.2pt;margin-bottom:18px;white-space:pre-line;break-inside:avoid}
+  .proposta .valor{background:#FAF8F4;border-left:3px solid #8C7853;padding:14px 18px;margin:6px 0 18px;break-inside:avoid}
+  .proposta .valor .n{font-family:var(--serif);font-size:26pt;line-height:1.1;color:#1A1A1A}
+  .proposta .valor .ext{font-size:9pt;color:#6B6B6B;margin-top:3px}
+  .proposta .valor .cond{margin-top:9px;font-size:9pt;line-height:1.6}
+  .proposta .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;break-inside:avoid}
+  .proposta .regras{margin:0 0 16px}
+  .proposta .regras li{font-size:8.5pt;line-height:1.5;margin-bottom:5px;padding-left:9px;position:relative;list-style:none}
+  .proposta .regras li::before{content:"—";position:absolute;left:0;color:#8C7853}
+  .proposta .banco{font-size:9pt;line-height:1.7}
+  .proposta .banco div{display:flex;justify-content:space-between;border-bottom:1px solid #E8E4DD;padding:3px 0}
+  .proposta .pe{margin-top:20px;padding-top:12px;border-top:1px solid #E8E4DD;display:flex;justify-content:space-between;font-size:8.6pt;color:#6B6B6B}
+  .proposta .aviso-previa{margin-top:14px;font-size:8pt;color:#8C7853;text-align:center;font-style:italic}
+}
 </style>
 </head>
 <body>
@@ -76,7 +137,7 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
 <div class="trava" id="trava">
   <div class="cx">
     <h1>Painel</h1>
-    <p>Sushi Leblon · preços de eventos</p>
+    <p>Sushi Leblon · eventos</p>
     <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
     <p class="erro" id="erro-senha"></p>
     <button class="botao" id="entrar" style="width:100%">Entrar</button>
@@ -85,10 +146,16 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
 
 <div class="wrap" id="app" hidden>
   <header>
-    <h1 class="marca">Painel de preços<small>Sushi Leblon Eventos</small></h1>
+    <h1 class="marca">Painel<small>Sushi Leblon Eventos</small></h1>
     <div class="estado" id="estado">Carregando o site publicado…</div>
   </header>
 
+  <nav class="abas" role="tablist">
+    <button class="aba" role="tab" data-aba="precos" aria-selected="true">Preços</button>
+    <button class="aba" role="tab" data-aba="proposta" aria-selected="false">Gerar proposta</button>
+  </nav>
+
+  <div id="aba-precos">
   <div class="aviso">
     <strong>Como funciona</strong>
     Você edita os <em>custos</em> aqui. O preço de venda é calculado sozinho pelos markups.
@@ -156,7 +223,48 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
       <thead><tr><th>Item</th><th class="num" style="width:130px">Custo p/ pessoa</th><th class="num" style="width:130px">Preço p/ pessoa</th></tr></thead>
       <tbody id="t-bebidas"></tbody></table></div>
   </section>
+  </div>
+
+  <div id="aba-proposta" hidden>
+    <section class="bloco">
+      <h2>Dados do evento</h2>
+      <div class="conteudo"><div class="par">
+        <div class="campo"><label for="p-cliente">Cliente</label><input id="p-cliente" placeholder="Nome do cliente"></div>
+        <div class="campo"><label for="p-data">Data</label><input id="p-data" type="date"></div>
+        <div class="campo"><label for="p-periodo">Período</label><select id="p-periodo"><option>Jantar</option><option>Almoço</option></select></div>
+        <div class="campo"><label for="p-hora">Horário (opcional)</label><input id="p-hora" placeholder="ex.: 20h"></div>
+        <div class="campo"><label for="p-pax">Convidados</label><input id="p-pax" type="number" min="1" value="25"></div>
+        <div class="campo largo"><label for="p-local">Local</label><input id="p-local" placeholder="Endereço do evento"></div>
+      </div></div>
+    </section>
+
+    <section class="bloco">
+      <h2>Cardápio</h2>
+      <div class="conteudo">
+        <p class="dica" style="padding-top:12px;font-size:.84rem;color:var(--suave)">Desmarque o que não vai ser servido. O valor se ajusta sozinho.</p>
+        <div id="p-menu"></div>
+        <label class="interr"><input type="checkbox" id="p-beb"> Incluir bebidas (com barman)</label>
+        <div id="p-menu-beb" hidden></div>
+      </div>
+    </section>
+
+    <section class="bloco">
+      <h2>Valor e condições</h2>
+      <div class="conteudo"><div class="par">
+        <div class="campo"><label>Valor calculado</label><div class="total-prop" id="p-calc">—</div><p class="alerta" id="p-alerta"></p></div>
+        <div class="campo"><label for="p-final">Valor final (opcional)</label><input id="p-final" inputmode="decimal" placeholder="Usar o calculado"><p class="dica">Para desconto ou itens premium. Ex.: 12.500</p></div>
+        <div class="campo"><label for="p-validade">Validade (dias)</label><input id="p-validade" type="number" min="1" value="7"></div>
+        <div class="campo"><label for="p-resp">Responsável</label><input id="p-resp" value="Maria Auxiliadora / Larissa Gomes"></div>
+        <div class="campo largo"><label for="p-obs">Observações na proposta (opcional)</label><textarea id="p-obs" placeholder="Itens premium, pedidos especiais, detalhes combinados"></textarea></div>
+      </div>
+      <div class="acoes"><button class="botao" id="p-gerar">Gerar PDF</button></div>
+      <p class="dica" style="text-align:right;font-size:.78rem;color:var(--suave);margin-top:6px">Abre a janela de impressão: escolha “Salvar como PDF”.</p>
+      </div>
+    </section>
+  </div>
 </div>
+
+<div class="proposta" id="proposta"></div>
 
 <div class="previa" id="previa" hidden>
   <div class="simul">
@@ -224,6 +332,7 @@ async function carregar(){
     montar();
     $("#estado").textContent = "Versão mais recente · " + totalItens() + " itens";
     $("#b-salvar").disabled = false;
+    montarMenuProposta();
   } catch (e) {
     $("#estado").innerHTML = '<span style="color:var(--vermelho)">Não consegui ler o site (' + e.message + ')</span>';
   }
@@ -276,6 +385,7 @@ function montar(){
     <td class="num preco" id="pv-bar-${i}">${brl(f.preco)}</td></tr>`).join("");
 
   simular();
+  if (CFG) montarMenuProposta();
 }
 function CONFIGantec(){ return CFG.antecedenciaDias ?? 5; }
 
@@ -410,6 +520,208 @@ $("#b-reverter").addEventListener("click", () => {
   montar();
   document.querySelectorAll(".mudou").forEach(el => el.classList.remove("mudou"));
   PENDENTE = false;
+});
+
+/* ============================================================
+   ABAS
+   ============================================================ */
+document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => {
+  const aba = b.dataset.aba;
+  document.querySelectorAll(".aba").forEach(x => x.setAttribute("aria-selected", x === b));
+  $("#aba-precos").hidden = aba !== "precos";
+  $("#aba-proposta").hidden = aba !== "proposta";
+  $("#previa").hidden = aba !== "precos";
+  if (aba === "proposta" && CFG) montarMenuProposta();
+  window.scrollTo(0, 0);
+}));
+
+/* ============================================================
+   PROPOSTA EM PDF (só no painel)
+   ============================================================ */
+const REGRAS = [
+  "Por medidas de segurança alimentar, todos os itens excedentes que não forem consumidos são de propriedade do buffet.",
+  "O pagamento do aluguel dos pratos é de responsabilidade do cliente.",
+  "Caso haja desistência, deverá ser informada antes da data do primeiro depósito; caso contrário não haverá devolução do sinal.",
+  "Não serão servidas refeições às equipes de apoio do evento.",
+  "A retirada do lixo é de responsabilidade exclusiva do contratante.",
+  "Qualquer alteração de número de convidados, data, local ou horário deverá ser comunicada por escrito com 72 horas de antecedência.",
+  "Contamos com a infraestrutura de cozinha do local: fogão, forno, geladeira, área de serviço para lavagem e espaço para troca de roupa da equipe.",
+  "A equipe de montagem chega de 1 a 2 horas antes do início e conta 5 horas de serviço no salão, totalizando 6 a 7 horas. Cada hora excedente custa R$ 180,00 por membro da equipe que permanecer."
+];
+const BANCO = [["Banco","Santander"],["Agência","4688"],["Conta corrente","13000099-0"],["Titular","Tropeço Bar e Restaurante"]];
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const brl0 = v => new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}).format(v);
+const P_FORA = new Set();   // itens desmarcados na proposta
+
+function montarMenuProposta(){
+  const lista = g => CFG.cardapio[g].itens.map(i => `<label class="chk${P_FORA.has(i.id) ? " fora" : ""}">
+      <input type="checkbox" data-pid="${esc(i.id)}"${P_FORA.has(i.id) ? "" : " checked"}><span>${esc(i.nome)}</span></label>`).join("");
+  const grupo = (g, t) => `<div class="grupo-menu"><h3>${t}<button type="button" data-todos="${g}">marcar/desmarcar todos</button></h3><div class="itens">${lista(g)}</div></div>`;
+  $("#p-menu").innerHTML = grupo("frios","Sushi bar") + grupo("quentes","Quentes") + grupo("sobremesas","Sobremesas");
+  $("#p-menu-beb").innerHTML = grupo("bebidas","Bebidas");
+  calcProposta();
+}
+
+$("#aba-proposta").addEventListener("change", e => {
+  const id = e.target.dataset.pid;
+  if (id) {
+    if (e.target.checked) P_FORA.delete(id); else P_FORA.add(id);
+    e.target.closest(".chk").classList.toggle("fora", !e.target.checked);
+  }
+  if (e.target.id === "p-beb") $("#p-menu-beb").hidden = !e.target.checked;
+  calcProposta();
+});
+$("#aba-proposta").addEventListener("input", e => { if (e.target.id === "p-pax") calcProposta(); });
+$("#aba-proposta").addEventListener("click", e => {
+  const g = e.target.dataset.todos;
+  if (!g) return;
+  const itens = CFG.cardapio[g].itens;
+  const todosMarcados = itens.every(i => !P_FORA.has(i.id));
+  itens.forEach(i => todosMarcados ? P_FORA.add(i.id) : P_FORA.delete(i.id));
+  montarMenuProposta();
+});
+
+function calcProposta(){
+  if (!CFG) return null;
+  const n = parseInt($("#p-pax").value, 10) || 0;
+  const beb = $("#p-beb").checked;
+  const sel = g => CFG.cardapio[g].itens.filter(i => !P_FORA.has(i.id));
+  const soma = g => sel(g).reduce((t, i) => t + i.preco, 0);
+  const faixa = l => l.find(f => n <= f.ate) || l[l.length - 1];
+  let pp = CFG.basePorPessoa + soma("frios") + soma("quentes") + soma("sobremesas");
+  const eq = faixa(CFG.equipe);
+  let equipe = eq.preco;
+  const funcoes = { ...eq.funcoes };
+  if (beb) {
+    pp += (CFG.bebidasBasePorPessoa || 0) + soma("bebidas");
+    const bar = faixa(CFG.bar);
+    equipe += bar.preco;
+    Object.entries(bar.funcoes).forEach(([k, q]) => funcoes[k] = (funcoes[k] || 0) + q);
+  }
+  const passo = CFG.arredondar || 1;
+  const total = n ? Math.round((n * pp + equipe) / passo) * passo : 0;
+  $("#p-calc").textContent = total ? brl0(total) : "—";
+  $("#p-alerta").textContent =
+    !n ? "Informe o número de convidados." :
+    n > CFG.maxPessoas ? `Acima de ${CFG.maxPessoas} pessoas: a equipe usada é a da maior faixa. Confira o valor.` :
+    n < CFG.minPessoas ? `Abaixo do mínimo do site (${CFG.minPessoas} pessoas).` : "";
+  return { n, beb, total, funcoes, sel };
+}
+
+function lerValor(txt){
+  let t = String(txt || "").replace(/[R$\s]/g, "");
+  if (!t) return null;
+  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, "");
+  const v = parseFloat(t);
+  return isFinite(v) && v > 0 ? Math.round(v) : NaN;
+}
+
+const UNI=["","um","dois","três","quatro","cinco","seis","sete","oito","nove","dez","onze","doze","treze","quatorze","quinze","dezesseis","dezessete","dezoito","dezenove"];
+const DEZ=["","","vinte","trinta","quarenta","cinquenta","sessenta","setenta","oitenta","noventa"];
+const CEM=["","cento","duzentos","trezentos","quatrocentos","quinhentos","seiscentos","setecentos","oitocentos","novecentos"];
+function porExtenso(n){
+  n = Math.round(n);
+  if (n === 0) return "zero reais";
+  const tri = v => {
+    if (v === 0) return "";
+    if (v === 100) return "cem";
+    const c = Math.floor(v/100), r = v % 100, p = [];
+    if (c) p.push(CEM[c]);
+    if (r) { if (r < 20) p.push(UNI[r]); else { const d = Math.floor(r/10), u = r % 10; p.push(u ? DEZ[d] + " e " + UNI[u] : DEZ[d]); } }
+    return p.join(" e ");
+  };
+  const mi = Math.floor(n/1e6), mil = Math.floor(n/1000) % 1000, resto = n % 1000;
+  const partes = [];
+  if (mi) partes.push(mi === 1 ? "um milhão" : tri(mi) + " milhões");
+  if (mil) partes.push(mil === 1 ? "mil" : tri(mil) + " mil");
+  let txt = partes.join(" ");
+  if (resto) txt += (txt ? (resto < 100 || resto % 100 === 0 ? " e " : " ") : "") + tri(resto);
+  const soMilhao = mi && !mil && !resto;
+  return txt + (n === 1 ? " real" : soMilhao ? " de reais" : " reais");
+}
+
+function textoEquipe(funcoes){
+  const nomes = CFG.nomesFuncoes;
+  const partes = Object.keys(nomes).filter(k => funcoes[k]).map(k => `${funcoes[k]} ${nomes[k][funcoes[k] > 1 ? 1 : 0]}`);
+  return partes.length > 1 ? partes.slice(0, -1).join(", ") + " e " + partes[partes.length - 1] : partes.join("");
+}
+
+$("#p-gerar").addEventListener("click", () => {
+  const r = calcProposta();
+  if (!r) return alert("Os preços ainda não carregaram.");
+  if (!r.n) { $("#p-pax").focus(); return alert("Informe o número de convidados."); }
+  if (!$("#p-data").value) { $("#p-data").focus(); return alert("Informe a data do evento."); }
+  const manual = lerValor($("#p-final").value);
+  if (Number.isNaN(manual)) { $("#p-final").focus(); return alert("O valor final não é um número válido."); }
+  const total = manual ?? r.total;
+
+  const hoje = new Date();
+  const dias = parseInt($("#p-validade").value, 10) || 7;
+  const val = new Date(hoje.getTime() + dias * 86400000);
+  const fmt = d => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+  const dataEv = new Date($("#p-data").value + "T12:00:00").toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const hora = $("#p-hora").value.trim();
+  const quando = `${dataEv} · ${$("#p-periodo").value}${hora ? ", " + hora : ""}`;
+  const grupo = (titulo, g) => {
+    const itens = r.sel(g);
+    return itens.length ? `<section><h4>${titulo}</h4><ul>${itens.map(i => `<li>${esc(i.nome)}</li>`).join("")}</ul></section>` : "";
+  };
+  const obs = $("#p-obs").value.trim();
+  const sinal = total / 2;
+
+  $("#proposta").innerHTML = `
+    <div class="capa">
+      <div class="marca">Sushi Leblon<small>Eventos</small></div>
+      <div class="quando">Proposta emitida em ${fmt(hoje)}<br>Válida até ${fmt(val)}</div>
+    </div>
+    <p class="abertura">Obrigado pela preferência. Ficaremos felizes em realizar o seu evento.</p>
+    <dl class="dados">
+      <div><dt>Cliente</dt><dd>${esc($("#p-cliente").value.trim() || "—")}</dd></div>
+      <div><dt>Data</dt><dd>${esc(quando)}</dd></div>
+      <div><dt>Local</dt><dd>${esc($("#p-local").value.trim() || "—")}</dd></div>
+      <div><dt>Convidados</dt><dd>${r.n} pessoas</dd></div>
+    </dl>
+    <h4>Serviço</h4>
+    <ul class="regras">
+      <li>Buffet Sushi Leblon servido no local para ${r.n} pessoas, no formato rodízio: a equipe permanece durante todo o evento repondo os pratos enquanto houver consumo.</li>
+      <li>Equipe uniformizada: ${esc(textoEquipe(r.funcoes))}.</li>
+      <li>Hashi, guardanapo personalizado, shoyu, gengibre e wasabi inclusos.</li>
+    </ul>
+    <h4>Menu</h4>
+    <div class="menu">
+      ${grupo("Sushi bar", "frios")}
+      ${grupo("Quentes", "quentes")}
+      ${grupo("Sobremesas", "sobremesas")}
+      ${r.beb ? grupo("Bebidas", "bebidas") : ""}
+    </div>
+    ${obs ? `<h4>Observações</h4><p class="obs">${esc(obs)}</p>` : ""}
+    <h4>Investimento</h4>
+    <div class="valor">
+      <div class="n">${brl0(total)}</div>
+      <div class="ext">${porExtenso(total).replace(/^./, c => c.toUpperCase())}</div>
+      <div class="cond">
+        50% de sinal (${brl0(sinal)}) na confirmação desta proposta<br>
+        50% (${brl0(total - sinal)}) até cinco dias antes do evento
+      </div>
+    </div>
+    <div class="cols">
+      <div>
+        <h4>Condições</h4>
+        <ul class="regras">${REGRAS.map(x => `<li>${x}</li>`).join("")}</ul>
+      </div>
+      <div>
+        <h4>Dados para depósito</h4>
+        <div class="banco">${BANCO.map(([k, v]) => `<div><span>${k}</span><strong>${v}</strong></div>`).join("")}</div>
+      </div>
+    </div>
+    <div class="pe">
+      <div>${esc($("#p-resp").value.trim())}</div>
+      <div>(21) 2512-7830 &nbsp;·&nbsp; eventos@sushileblon.com.br</div>
+    </div>
+    <p class="aviso-previa">Valores sujeitos a confirmação pela equipe Sushi Leblon.</p>`;
+  setTimeout(() => window.print(), 60);
 });
 </script>
 </body>
