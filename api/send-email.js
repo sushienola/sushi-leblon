@@ -1,66 +1,79 @@
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+module.exports = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
 
   try {
-    const { nome, email, telefone, endereco, pedido } = req.body;
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Use POST' });
+    }
+
+    if (!process.env.RESEND_API_KEY) {
+      return res.status(500).json({ error: 'RESEND_API_KEY nao configurada no Vercel' });
+    }
+
+    // Ler o corpo na mao (nao depende do parser do Vercel)
+    var body = req.body;
+    if (!body || typeof body === 'string') {
+      var raw = '';
+      if (typeof body === 'string') {
+        raw = body;
+      } else {
+        raw = await new Promise(function (resolve, reject) {
+          var d = '';
+          req.on('data', function (c) { d += c; });
+          req.on('end', function () { resolve(d); });
+          req.on('error', reject);
+        });
+      }
+      try { body = JSON.parse(raw || '{}'); } catch (e) { body = {}; }
+    }
+
+    var nome = body.nome || '';
+    var email = body.email || '';
+    var telefone = body.telefone || '';
+    var endereco = body.endereco || '';
+    var pedido = body.pedido || '';
 
     if (!nome || !email || !telefone || !endereco || !pedido) {
-      return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+      return res.status(400).json({ error: 'Campos obrigatorios faltando' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Email inválido' });
-    }
+    var texto =
+      'Nome: ' + nome + '\n' +
+      'Email: ' + email + '\n' +
+      'Telefone: ' + telefone + '\n' +
+      'Endereco: ' + endereco + '\n\n' +
+      '----------------------------------------\n\n' +
+      pedido;
 
-    const assunto = `Novo pedido de evento - ${nome}`;
-    const corpo = `Dados do Cliente:
-- Nome: ${nome}
-- Email: ${email}
-- Telefone: ${telefone}
-- Endereço: ${endereco}
-
----
-
-${pedido}
-
----
-
-Este é um pedido automático. Responda a este email com sua confirmação.`;
-
-    // Chamar Resend API diretamente
-    const response = await fetch('https://api.resend.com/emails', {
+    var r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': 'Bearer ' + process.env.RESEND_API_KEY,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'noreply@sushi-leblon.com',
-        to: 'sushienola@gmail.com',
-        replyTo: email,
-        subject: assunto,
-        text: corpo
+        from: 'Sushi Leblon <onboarding@resend.dev>',
+        to: ['sushienola@gmail.com'],
+        reply_to: email,
+        subject: 'Novo pedido de evento - ' + nome,
+        text: texto
       })
     });
 
-    const data = await response.json();
+    var texto_resposta = await r.text();
+    var dados;
+    try { dados = JSON.parse(texto_resposta); } catch (e) { dados = { raw: texto_resposta }; }
 
-    if (!response.ok) {
-      console.error('Erro Resend:', data);
-      return res.status(500).json({ error: 'Erro ao enviar email' });
+    if (!r.ok) {
+      // Devolve o motivo real do Resend, para aparecer na tela
+      return res.status(500).json({
+        error: 'Resend recusou: ' + (dados.message || dados.name || texto_resposta)
+      });
     }
 
-    return res.status(200).json({ 
-      success: true, 
-      message: 'Pedido enviado com sucesso!',
-      id: data.id 
-    });
+    return res.status(200).json({ success: true, id: dados.id });
 
-  } catch (error) {
-    console.error('Erro:', error);
-    return res.status(500).json({ error: 'Erro ao processar pedido' });
+  } catch (e) {
+    return res.status(500).json({ error: 'Falha: ' + (e && e.message ? e.message : String(e)) });
   }
-}
+};
