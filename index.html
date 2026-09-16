@@ -926,7 +926,7 @@ function textoPedido() {
   ].join("\n").trim();
 }
 
-$("#enviar").addEventListener("click", () => {
+$("#enviar").addEventListener("click", async () => {
   const regras = [
     ["#f-nome", v => v.length > 1, "Informe seu nome."],
     ["#f-email", v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v), "Informe um e-mail válido."],
@@ -942,16 +942,39 @@ $("#enviar").addEventListener("click", () => {
   });
   if (primeiro) return primeiro.focus();
 
-  const assunto = `Orçamento evento - ${$("#f-nome").value.trim()} - ${pessoas()} pessoas`;
-  const corpo = textoPedido();
-  const link = `mailto:${CONFIG.email}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-  window.location.href = link;
-  
-  setTimeout(() => {
-    $("#sucesso-alt").textContent = `Se o e-mail não abriu, copie o texto abaixo e envie para ${CONFIG.email}:`;
+  const btnEnviar = $("#enviar");
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = "Enviando...";
+
+  try {
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome: $("#f-nome").value.trim(),
+        email: $("#f-email").value.trim(),
+        telefone: $("#f-tel").value.trim(),
+        endereco: $("#f-end").value.trim(),
+        pedido: textoPedido()
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erro ao enviar");
+    }
+
+    $("#sucesso-alt").textContent = `✅ Pedido enviado com sucesso! Você receberá uma resposta em breve em ${$("#f-email").value.trim()}.`;
     $("#pedido").hidden = true;
     $("#sucesso").hidden = false;
-  }, 500);
+
+  } catch (error) {
+    console.error("Erro:", error);
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = "Enviar pedido";
+    alert(`Erro: ${error.message}`);
+  }
 });
 
 $("#copiar").addEventListener("click", async () => {
