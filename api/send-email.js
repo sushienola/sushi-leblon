@@ -1,8 +1,4 @@
-const { Resend } = require('resend');
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -34,27 +30,37 @@ ${pedido}
 
 Este é um pedido automático. Responda a este email com sua confirmação.`;
 
-    const result = await resend.emails.send({
-      from: 'noreply@sushi-leblon.com',
-      to: 'sushienola@gmail.com',
-      replyTo: email,
-      subject: assunto,
-      text: corpo
+    // Chamar Resend API diretamente
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'noreply@sushi-leblon.com',
+        to: 'sushienola@gmail.com',
+        replyTo: email,
+        subject: assunto,
+        text: corpo
+      })
     });
 
-    if (result.error) {
-      console.error('Erro Resend:', result.error);
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Erro Resend:', data);
       return res.status(500).json({ error: 'Erro ao enviar email' });
     }
 
     return res.status(200).json({ 
       success: true, 
       message: 'Pedido enviado com sucesso!',
-      id: result.data.id 
+      id: data.id 
     });
 
   } catch (error) {
     console.error('Erro:', error);
     return res.status(500).json({ error: 'Erro ao processar pedido' });
   }
-};
+}
