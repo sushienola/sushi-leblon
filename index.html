@@ -117,6 +117,53 @@ svg.logo path{fill:currentColor}
 .explica{margin-top:18px;padding-top:16px;border-top:1px solid var(--linha);font-size:.95rem;max-width:52ch}
 .explica[hidden]{display:none}
 
+
+/* ===== Proposta imprimível ===== */
+.proposta{display:none}
+#dlg-proposta::backdrop{background:rgba(26,26,26,.5)}
+#dlg-proposta{border:0;border-radius:6px;padding:0;max-width:440px;width:92vw;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+#dlg-proposta .cx{padding:30px 32px 32px;background:var(--branco)}
+#dlg-proposta h3{font-family:var(--serif);font-size:1.5rem;margin-bottom:6px;color:var(--nanquim)}
+#dlg-proposta p.sub{color:var(--suave);font-size:.93rem;margin-bottom:20px}
+#dlg-proposta .cf{margin-bottom:14px}
+#dlg-proposta label{display:block;font-size:.86rem;color:var(--suave);margin-bottom:5px}
+#dlg-proposta input{width:100%;padding:.72em .85em;border:1px solid var(--linha);border-radius:4px;font:inherit;font-size:.97rem}
+#dlg-proposta input:focus{outline:2px solid var(--ouro);outline-offset:-1px}
+.linha2{display:flex;gap:12px}.linha2 .cf{flex:1}
+
+@media print{
+  @page{size:A4;margin:16mm 14mm 14mm}
+  html,body{background:#fff!important}
+  body>*{display:none!important}
+  body>.proposta{display:block!important}
+  .proposta{font-family:var(--sans);color:#1A1A1A;font-size:10.2pt;line-height:1.5}
+  .proposta .capa{border-bottom:2px solid #8C7853;padding-bottom:14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+  .proposta .marca{font-family:var(--serif);font-size:20pt;letter-spacing:.02em;color:#1A1A1A}
+  .proposta .marca small{display:block;font-family:var(--sans);font-size:7.6pt;letter-spacing:.22em;text-transform:uppercase;color:#8C7853;margin-top:4px}
+  .proposta .quando{text-align:right;font-size:8.6pt;color:#6B6B6B;line-height:1.7}
+  .proposta .dados{display:grid;grid-template-columns:1fr 1fr;gap:4px 26px;margin-bottom:18px}
+  .proposta .dados div{display:flex;justify-content:space-between;border-bottom:1px solid #E8E4DD;padding:5px 0}
+  .proposta .dados dt{color:#6B6B6B;font-size:8.8pt}
+  .proposta .dados dd{font-weight:500;font-size:9.4pt;text-align:right}
+  .proposta .abertura{font-family:var(--serif);font-size:12pt;line-height:1.45;margin:4px 0 20px;color:#1A1A1A}
+  .proposta h4{font-family:var(--sans);font-size:7.8pt;letter-spacing:.2em;text-transform:uppercase;color:#8C7853;border-bottom:1px solid #8C7853;padding-bottom:5px;margin:0 0 10px}
+  .proposta .menu{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;margin-bottom:18px}
+  .proposta .menu section{break-inside:avoid;margin-bottom:14px}
+  .proposta .menu ul{list-style:none;margin:0}
+  .proposta .menu li{padding:2.5px 0;font-size:9.2pt;border-bottom:1px dotted #EEE9E1}
+  .proposta .valor{background:#FAF8F4;border-left:3px solid #8C7853;padding:14px 18px;margin:6px 0 18px;break-inside:avoid}
+  .proposta .valor .n{font-family:var(--serif);font-size:24pt;line-height:1.1;color:#1A1A1A}
+  .proposta .valor .ext{font-size:9pt;color:#6B6B6B;margin-top:3px}
+  .proposta .valor .cond{margin-top:9px;font-size:9pt;line-height:1.6}
+  .proposta .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;break-inside:avoid}
+  .proposta .regras li{font-size:8.5pt;line-height:1.5;margin-bottom:5px;padding-left:9px;position:relative;list-style:none}
+  .proposta .regras li::before{content:"—";position:absolute;left:0;color:#8C7853}
+  .proposta .banco{font-size:9pt;line-height:1.7}
+  .proposta .banco div{display:flex;justify-content:space-between;border-bottom:1px solid #E8E4DD;padding:3px 0}
+  .proposta .pe{margin-top:20px;padding-top:12px;border-top:1px solid #E8E4DD;display:flex;justify-content:space-between;font-size:8.6pt;color:#6B6B6B}
+  .proposta .aviso-previa{margin-top:14px;font-size:8pt;color:#8C7853;text-align:center;font-style:italic}
+}
+
 /* Estimativa */
 .estimativa{position:sticky;top:28px;align-self:start;border-top:2px solid var(--ouro);padding-top:26px}
 .estimativa .rotulo{font-size:.95rem;color:var(--suave)}
@@ -332,6 +379,7 @@ dialog[open]{animation:surgir .28s cubic-bezier(.2,.7,.2,1)}
         
         <button type="button" class="botao botao-orcar" id="calcular-estimativa" style="display:none;">Ver estimativa</button>
         <button type="button" class="botao" id="solicitar" style="display:none;">Solicitar orçamento</button>
+        <button type="button" class="secundario" id="abrir-proposta" style="display:none;width:100%;margin-top:10px">Gerar proposta em PDF</button>
         <p class="aviso" id="aviso" role="alert"></p>
         <p class="nota" id="nota" style="display:none;">Valor aproximado. O orçamento final é confirmado pela nossa equipe.</p>
       </aside>
@@ -394,6 +442,23 @@ dialog[open]{animation:surgir .28s cubic-bezier(.2,.7,.2,1)}
   </div>
 </dialog>
 
+
+
+<dialog id="dlg-proposta">
+  <div class="cx">
+    <h3>Gerar proposta</h3>
+    <p class="sub">Confirme os dados do cliente. A proposta abre na janela de impressão, onde você escolhe "Salvar como PDF".</p>
+    <div class="cf"><label for="p-cliente">Nome do cliente</label><input id="p-cliente" placeholder="Andressa Guedes"></div>
+    <div class="linha2">
+      <div class="cf"><label for="p-validade">Validade da proposta (dias)</label><input id="p-validade" type="number" value="7" min="1"></div>
+      <div class="cf"><label for="p-resp">Responsável</label><input id="p-resp" value="Maria Auxiliadora / Larissa Gomes"></div>
+    </div>
+    <button type="button" class="botao" id="p-gerar" style="width:100%;margin-top:8px">Abrir proposta</button>
+    <button type="button" class="secundario" id="p-fechar" style="width:100%;margin-top:10px">Cancelar</button>
+  </div>
+</dialog>
+
+<div class="proposta" id="proposta"></div>
 
 <script>
 /* ============================================================
@@ -710,6 +775,7 @@ function mostrarEstimativa() {
     estimativaVazia.style.display = "none";
     calcularBtn.style.display = "none";
     botao.style.display = "block";
+    $("#abrir-proposta").style.display = "none";
     nota.style.display = "block";
     estado.total = 0;
   } else {
@@ -723,6 +789,7 @@ function mostrarEstimativa() {
     estimativaVazia.style.display = "none";
     calcularBtn.style.display = "none";
     botao.style.display = "block";
+    $("#abrir-proposta").style.display = "block";
     nota.style.display = "block";
     estado.previewVisivel = true;
   }
@@ -739,6 +806,7 @@ function atualizarEstadoBotao() {
     $("#estimativa-vazia").style.display = "block";
     $("#preview-container").style.display = "none";
     $("#solicitar").style.display = "none";
+    $("#abrir-proposta").style.display = "none";
     $("#nota").style.display = "none";
   }
 }
@@ -993,6 +1061,134 @@ $("#copiar").addEventListener("click", async () => {
   $("#copiar").textContent = "Pedido copiado";
   setTimeout(() => $("#copiar").textContent = "Copiar pedido", 2200);
 });
+
+
+/* ============================================================
+   PROPOSTA EM PDF
+   ============================================================ */
+const REGRAS = [
+  "Por medidas de segurança alimentar, todos os itens excedentes que não forem consumidos são de propriedade do buffet.",
+  "O pagamento do aluguel dos pratos é de responsabilidade do cliente.",
+  "Caso haja desistência, deverá ser informada antes da data do primeiro depósito; caso contrário não haverá devolução do sinal.",
+  "Não serão servidas refeições às equipes de apoio do evento.",
+  "A retirada do lixo é de responsabilidade exclusiva do contratante.",
+  "Qualquer alteração de número de convidados, data, local ou horário deverá ser comunicada por escrito com 72 horas de antecedência.",
+  "Contamos com a infraestrutura de cozinha do local: fogão, forno, geladeira, área de serviço para lavagem e espaço para troca de roupa da equipe.",
+  "A equipe de montagem chega de 1 a 2 horas antes do início e conta 5 horas de serviço no salão, totalizando 6 a 7 horas. Cada hora excedente custa R$ 180,00 por membro da equipe que permanecer."
+];
+const BANCO = [["Banco","Santander"],["Agência","4688"],["Conta corrente","13000099-0"],["Titular","Tropeço Bar e Restaurante"]];
+
+const UNI=["","um","dois","três","quatro","cinco","seis","sete","oito","nove","dez","onze","doze","treze","quatorze","quinze","dezesseis","dezessete","dezoito","dezenove"];
+const DEZ=["","","vinte","trinta","quarenta","cinquenta","sessenta","setenta","oitenta","noventa"];
+const CEM=["","cento","duzentos","trezentos","quatrocentos","quinhentos","seiscentos","setecentos","oitocentos","novecentos"];
+function porExtenso(n){
+  n = Math.round(n);
+  if(n===0) return "zero reais";
+  const tri = v => {
+    if(v===0) return "";
+    if(v===100) return "cem";
+    const c=Math.floor(v/100), r=v%100;
+    let p=[];
+    if(c) p.push(CEM[c]);
+    if(r){ if(r<20) p.push(UNI[r]); else { const d=Math.floor(r/10), u=r%10; p.push(u?DEZ[d]+" e "+UNI[u]:DEZ[d]); } }
+    return p.join(" e ");
+  };
+  const mil=Math.floor(n/1000), resto=n%1000;
+  let txt="";
+  if(mil) txt = (mil===1?"mil":tri(mil)+" mil");
+  if(resto) txt += (txt? (resto<100?" e ":" "):"") + tri(resto);
+  return txt + (n===1?" real":" reais");
+}
+
+function itensSelecionados(lista){ return lista.filter(i => !estado.fora.has(i.id)); }
+
+function montarProposta(){
+  const n = pessoas();
+  const cliente = ($("#p-cliente").value || "").trim() || "—";
+  const resp = ($("#p-resp").value || "").trim();
+  const dias = parseInt($("#p-validade").value || "7", 10);
+  const hoje = new Date();
+  const val = new Date(hoje.getTime() + dias*86400000);
+  const fmt = d => d.toLocaleDateString("pt-BR", { day:"2-digit", month:"long", year:"numeric" });
+  const local = estado.onde.rua ? `${estado.onde.rua}, ${estado.onde.bairro}` : (estado.onde.bairro || "—");
+  const total = estado.total;
+
+  const grupo = (titulo, itens) => itens.length
+    ? `<section><h4>${titulo}</h4><ul>${itens.map(i=>`<li>${i.nome}</li>`).join("")}</ul></section>` : "";
+
+  const eq = faixa(CONFIG.equipe, n);
+  const funcoes = { ...eq.funcoes };
+  if (estado.bebidasOn) Object.entries(faixa(CONFIG.bar, n).funcoes).forEach(([k,q]) => funcoes[k]=(funcoes[k]||0)+q);
+
+  const sinal = total/2;
+
+  $("#proposta").innerHTML = `
+    <div class="capa">
+      <div class="marca">Sushi Leblon<small>Eventos</small></div>
+      <div class="quando">Proposta emitida em ${fmt(hoje)}<br>Válida até ${fmt(val)}</div>
+    </div>
+
+    <p class="abertura">Obrigado pela preferência. Ficaremos felizes em realizar o seu evento.</p>
+
+    <dl class="dados">
+      <div><dt>Cliente</dt><dd>${cliente}</dd></div>
+      <div><dt>Data e horário</dt><dd>${dataLonga()} — ${cap($("#periodo").value)}</dd></div>
+      <div><dt>Local</dt><dd>${local}</dd></div>
+      <div><dt>Convidados</dt><dd>${n} pessoas</dd></div>
+    </dl>
+
+    <h4>Serviço</h4>
+    <ul class="regras" style="margin-bottom:16px">
+      <li>Buffet Sushi Leblon servido no local para ${n} pessoas, no formato rodízio: a equipe permanece durante todo o evento repondo os pratos enquanto houver consumo.</li>
+      <li>Equipe uniformizada: ${textoEquipe(funcoes)}.</li>
+      <li>Hashi, guardanapo personalizado, shoyu, gengibre e wasabi inclusos.</li>
+    </ul>
+
+    <h4>Menu</h4>
+    <div class="menu">
+      ${grupo("Sushi bar", itensSelecionados(cd.frios.itens))}
+      ${grupo("Quentes", itensSelecionados(cd.quentes.itens))}
+      ${grupo("Sobremesas", itensSelecionados(cd.sobremesas.itens))}
+      ${estado.bebidasOn ? grupo("Bebidas", itensSelecionados(cd.bebidas.itens)) : ""}
+    </div>
+
+    <h4>Investimento</h4>
+    <div class="valor">
+      <div class="n">${brl(total)}</div>
+      <div class="ext">${porExtenso(total).replace(/^./, c=>c.toUpperCase())}</div>
+      <div class="cond">
+        50% de sinal (${brl(sinal)}) na confirmação desta proposta<br>
+        50% (${brl(sinal)}) até cinco dias antes do evento
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h4>Condições</h4>
+        <ul class="regras">${REGRAS.map(r=>`<li>${r}</li>`).join("")}</ul>
+      </div>
+      <div>
+        <h4>Dados para depósito</h4>
+        <div class="banco">${BANCO.map(([k,v])=>`<div><span>${k}</span><strong>${v}</strong></div>`).join("")}</div>
+      </div>
+    </div>
+
+    <div class="pe">
+      <div>${resp}</div>
+      <div>2512.7830 &nbsp;·&nbsp; eventos@sushileblon.com.br</div>
+    </div>
+    <p class="aviso-previa">Valores sujeitos a confirmação pela equipe Sushi Leblon.</p>
+  `;
+  window.print();
+}
+
+$("#abrir-proposta")?.addEventListener("click", () => {
+  if (!estado.total) return;
+  $("#dlg-proposta").showModal();
+  setTimeout(() => $("#p-cliente").focus(), 50);
+});
+$("#p-fechar")?.addEventListener("click", () => $("#dlg-proposta").close());
+$("#p-gerar")?.addEventListener("click", () => { $("#dlg-proposta").close(); setTimeout(montarProposta, 120); });
 
 /* ---------- Botão Ver Estimativa ---------- */
 $("#calcular-estimativa").addEventListener("click", () => {
