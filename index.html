@@ -959,7 +959,9 @@ $("#enviar").addEventListener("click", async () => {
       })
     });
 
-    const data = await response.json();
+    const bruto = await response.text();
+    let data = {};
+    try { data = JSON.parse(bruto); } catch (e) { data = { error: bruto.slice(0, 200) }; }
 
     if (!response.ok) {
       throw new Error(data.error || "Erro ao enviar");
