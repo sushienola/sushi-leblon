@@ -407,23 +407,23 @@ const CONFIG = {
   minPessoas: 8,
   maxPessoas: 45,                                // acima disso: sob consulta
   antecedenciaDias: 5,
-  arredondar: 50,
+  arredondar: 1,
 
   // Preços por pessoa, já com markup. Valem para qualquer seleção.
-  basePorPessoa: 57.38,          // louças, descartáveis, shoyu e óleo
-  bebidasBasePorPessoa: 13.5,    // gelo e tina, só quando as bebidas estão incluídas
+  basePorPessoa: 10.2,          // louças, descartáveis, shoyu e óleo
+  bebidasBasePorPessoa: 0,    // gelo e tina, só quando as bebidas estão incluídas
 
   // Equipe por faixa de convidados. "preco" já tem markup e inclui transporte.
   equipe: [
-    { ate: 15, preco: 2700, funcoes: { sushiman: 1, cozinheiro: 1, ajCozinha: 1, maitre: 1 } },
-    { ate: 25, preco: 3700, funcoes: { sushiman: 2, cozinheiro: 1, ajCozinha: 1, maitre: 1, garcom: 1 } },
-    { ate: 35, preco: 4100, funcoes: { sushiman: 2, ajSushiman: 1, cozinheiro: 1, ajCozinha: 1, maitre: 1, garcom: 1 } },
-    { ate: 45, preco: 5700, funcoes: { sushiman: 3, ajSushiman: 1, cozinheiro: 2, ajCozinha: 1, maitre: 1, garcom: 2 } }
+    { ate: 15, preco: 3003.42, funcoes: {"sushiman": 1, "cozinheiro": 1, "ajCozinha": 1, "maitre": 1} },
+    { ate: 25, preco: 4004.1, funcoes: {"sushiman": 2, "cozinheiro": 1, "ajCozinha": 1, "maitre": 1, "garcom": 1} },
+    { ate: 35, preco: 4404.44, funcoes: {"sushiman": 2, "ajSushiman": 1, "cozinheiro": 1, "ajCozinha": 1, "maitre": 1, "garcom": 1} },
+    { ate: 45, preco: 6005.46, funcoes: {"sushiman": 3, "ajSushiman": 1, "cozinheiro": 2, "ajCozinha": 1, "maitre": 1, "garcom": 2} }
   ],
   // Entra só quando as bebidas estão incluídas
   bar: [
-    { ate: 25, preco: 400, funcoes: { barman: 1 } },
-    { ate: 45, preco: 800, funcoes: { barman: 1, asg: 1 } }
+    { ate: 25, preco: 400, funcoes: {"barman": 1} },
+    { ate: 45, preco: 800, funcoes: {"barman": 1, "asg": 1} }
   ],
   nomesFuncoes: {
     sushiman: ["sushiman", "sushimen"],
@@ -440,49 +440,51 @@ const CONFIG = {
   // Cardápio. "preco" = preço por pessoa do item, já com markup.
   cardapio: {
     frios: { titulo: "Sushi bar", itens: [
-      { id: "salmao", nome: "Sushi e sashimi de salmão", preco: 11.22 },
-      { id: "namorado-crispy", nome: "Sushi e sashimi de namorado crispy picante", preco: 35.19 },
-      { id: "atum", nome: "Sushi e sashimi de atum", preco: 8.82 },
-      { id: "atum-vermelho", nome: "Atum vermelho picante", preco: 93.92 },
-      { id: "tartar-caipira", nome: "Tartar de atum caipira", preco: 110.8 },
-      { id: "carpaccio-franca", nome: "Carpaccio do França", preco: 65.12 },
-      { id: "gravlax", nome: "Sushi e sashimi de salmão gravlax", preco: 9.21 },
+      { id: "salmao", nome: "Sushi e sashimi de salmão", preco: 37.14 },
+      { id: "namorado-crispy", nome: "Sushi e sashimi de namorado crispy picante", preco: 52.53 },
+      { id: "atum", nome: "Sushi e sashimi de atum", preco: 28.62 },
+      { id: "peixe-branco", nome: "Sushi e sashimi de peixe branco", preco: 31.92 },
+      { id: "gravlax", nome: "Sushi e sashimi de salmão gravlax", preco: 28.17 },
+      { id: "quinoa", nome: "Sushi e sashimi de salmão com quinoa crocante", preco: 44.46 },
       { id: "crispy-rice", nome: "Crispy rice de salmão e atum", preco: 12.96 },
-      { id: "ussu-barriga", nome: "Ussuzukuri de barriga de salmão", preco: 4.59 },
-      { id: "ussu-trufado", nome: "Ussuzukuri de peixe branco trufado", preco: 13.2 },
-      { id: "codorna", nome: "Sushi de ovo de codorna", preco: 1.5 },
+      { id: "atum-vermelho", nome: "Atum vermelho picante", preco: 70.44 },
+      { id: "tartar-caipira", nome: "Tartar de atum caipira", preco: 83.1 },
+      { id: "carpaccio-franca", nome: "Carpaccio do França", preco: 48.84 },
+      { id: "mini-taco", nome: "Mini taco", preco: 27.9 },
+      { id: "ussu-barriga", nome: "Ussuzukuri de barriga de salmão", preco: 19.08 },
+      { id: "ussu-trufado", nome: "Ussuzukuri de peixe branco trufado", preco: 20.94 },
+      { id: "ussu-biquinho", nome: "Ussuzukuri de pimenta biquinho", preco: 24.33 },
       { id: "siciliano", nome: "Sushi de salmão siciliano", preco: 6.66 },
-      { id: "spicy-salmao", nome: "Sushi spicy salmão", preco: 4.56 },
-      { id: "quinoa", nome: "Sushi e sashimi de salmão com quinoa crocante", preco: 10.74 },
       { id: "spicy-tuna", nome: "Sushi spicy tuna crunch", preco: 10.59 },
+      { id: "spicy-salmao", nome: "Sushi spicy salmão", preco: 4.56 },
+      { id: "salmao-crunch", nome: "Sushi de salmão especial crunch", preco: 7.47 },
       { id: "atum-crunch", nome: "Sushi de atum especial crunch", preco: 5.73 },
-      { id: "mini-taco", nome: "Mini taco", preco: 37.2 },
-      { id: "peixe-branco", nome: "Sushi e sashimi de peixe branco", preco: 11.28 },
       { id: "barriga-roll", nome: "Barriga roll", preco: 4.23 },
-      { id: "filadelfia", nome: "Filadélfia", preco: 1.89 },
-      { id: "california", nome: "Califórnia", preco: 0.81 },
+      { id: "hot-maki", nome: "Hot maki", preco: 7.5 },
       { id: "salmao-maki", nome: "Salmão maki", preco: 2.34 },
       { id: "avocado-roll", nome: "Salmão avocado roll", preco: 1.95 },
-      { id: "foie-gras", nome: "Atum semigrelhado com foie gras", preco: 23.7 },
-      { id: "hot-maki", nome: "Hot maki", preco: 7.5 },
-      { id: "batera", nome: "Baterá de salmão e atum", preco: 3.42 }
+      { id: "filadelfia", nome: "Filadélfia", preco: 1.89 },
+      { id: "california", nome: "Califórnia", preco: 0.81 },
+      { id: "codorna", nome: "Sushi de ovo de codorna", preco: 1.5 }
     ]},
     quentes: { titulo: "Quentes", itens: [
-      { id: "edamame", nome: "Edamame", preco: 15.16 },
-      { id: "harumaki-ebi", nome: "Harumaki de ebi", preco: 4.29 },
+      { id: "foie-gras", nome: "Atum semigrelhado com foie gras", preco: 18.87 },
+      { id: "camarao-pops", nome: "Camarão pops", preco: 46.11 },
+      { id: "atum-ponzu", nome: "Atum selado com molho ponzu", preco: 58.65 },
       { id: "yaki-mignon", nome: "Yakissoba de mignon", preco: 11.5 },
-      { id: "camarao-pops", nome: "Camarão pops", preco: 61.48 },
-      { id: "atum-ponzu", nome: "Atum selado com molho ponzu", preco: 78.2 }
+      { id: "edamame", nome: "Edamame", preco: 19.65 },
+      { id: "harumaki-ebi", nome: "Mini harumaki de ebi", preco: 4.29 },
+      { id: "batera", nome: "Baterá de salmão e atum", preco: 3.42 }
     ]},
     sobremesas: { titulo: "Sobremesas", itens: [
-      { id: "bolo", nome: "Bolo de chocolate com sorvete", preco: 16.19 }
+      { id: "bolo", nome: "Bolo de chocolate com sorvete de creme", preco: 11.17 }
     ]},
     bebidas: { titulo: "Bebidas", itens: [
       { id: "agua", nome: "Água com e sem gás", preco: 8.46 },
-      { id: "coca", nome: "Coca-Cola e Coca-Cola Zero", preco: 24.93 },
-      { id: "guarana", nome: "Guaraná e Guaraná Zero", preco: 24.18 },
-      { id: "cerveja", nome: "Cerveja", preco: 13.86 },
-      { id: "caipi", nome: "Caipi de vodca ou saquê", desc: "Morango, lichia, abacaxi e limão", preco: 83.75 }
+      { id: "coca", nome: "Coca-Cola e Coca-Cola Zero", preco: 10.2 },
+      { id: "guarana", nome: "Guaraná e Guaraná Zero", preco: 11.46 },
+      { id: "cerveja", nome: "Cerveja Heineken", preco: 17.79 },
+      { id: "caipi", nome: "Caipi de vodca ou saquê", preco: 78.0 }
     ]}
   }
 };
