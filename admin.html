@@ -117,9 +117,9 @@ td input.mudou{background:#F1F8E9;border-color:#AED581}
   .proposta .dados dd{font-weight:500;font-size:9.4pt;text-align:right}
   .proposta .abertura{font-family:var(--serif);font-size:13pt;line-height:1.45;margin:4px 0 20px;color:#1A1A1A}
   .proposta h4{font-family:var(--sans);font-size:7.8pt;letter-spacing:.2em;text-transform:uppercase;color:#8C7853;border-bottom:1px solid #8C7853;padding-bottom:5px;margin:0 0 10px}
-  .proposta .menu{display:flex;gap:26px;margin-bottom:18px;align-items:flex-start}
-  .proposta .menu .col{flex:1;min-width:0}
-  .proposta .menu section{margin-bottom:14px}
+  .proposta .menu{columns:2;column-gap:26px;margin-bottom:18px}
+  .proposta .menu section{margin-bottom:14px;break-inside:auto}
+  .proposta .menu h4{break-after:avoid;break-inside:avoid}
   .proposta .menu li{break-inside:avoid}
   .proposta .bloco-valor{break-inside:avoid}
   .proposta .menu ul{list-style:none;margin:0}
@@ -558,6 +558,19 @@ const REGRAS = [
 ];
 const BANCO = [["Banco","Santander"],["Agência","4688"],["Conta corrente","13000099-0"],["Titular","Tropeço Bar e Restaurante"]];
 
+/* Contato do rodape da proposta: sai do CONFIG do site, nao fica escrito a mao */
+function telefoneBonito(bruto){
+  const d = String(bruto || "").replace(/\D/g, "").replace(/^55/, "");
+  if (d.length === 11) return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+  if (d.length === 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+  return bruto || "";
+}
+function contatoProposta(){
+  const tel = telefoneBonito(CFG && CFG.whatsappEntrega);
+  const mail = (CFG && CFG.email) || "";
+  return [tel, mail].filter(Boolean).join("  \u00b7  ");
+}
+
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 const brl0 = v => new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}).format(v);
 const P_FORA = new Set();   // itens desmarcados na proposta
@@ -701,12 +714,10 @@ $("#p-gerar").addEventListener("click", () => {
     </ul>
     <h4>Menu</h4>
     <div class="menu">
-      <div class="col">${grupo("Sushi bar", "frios")}</div>
-      <div class="col">
-        ${grupo("Quentes", "quentes")}
-        ${grupo("Sobremesas", "sobremesas")}
-        ${r.beb ? grupo("Bebidas", "bebidas") : ""}
-      </div>
+      ${grupo("Sushi bar", "frios")}
+      ${grupo("Quentes", "quentes")}
+      ${grupo("Sobremesas", "sobremesas")}
+      ${r.beb ? grupo("Bebidas", "bebidas") : ""}
     </div>
     ${obs ? `<h4>Observações</h4><p class="obs">${esc(obs)}</p>` : ""}
     <div class="bloco-valor">
@@ -732,7 +743,7 @@ $("#p-gerar").addEventListener("click", () => {
     </div>
     <div class="pe">
       <div>${esc($("#p-resp").value.trim())}</div>
-      <div>(21) 2512-7830 &nbsp;·&nbsp; administrativo@sushileblon.com</div>
+      <div>${esc(contatoProposta())}</div>
     </div>
     <p class="aviso-previa">Valores sujeitos a confirmação pela equipe Sushi Leblon.</p>
     </td></tr></tbody></table>`;
